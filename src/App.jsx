@@ -11,7 +11,7 @@ const projects = [
   { index: '02', title: 'Ariseol', line: 'Turning engine oil into a feed worth following.', image: '/work/ariseol.jpg', color: '#ef4743', url: 'https://www.behance.net/gallery/248220673/Ariseol-Social-Media-Design', size: 'standard' },
   { index: '03', title: 'Lay’s AI Shoot', line: 'A product shoot created without a studio—or a potato budget.', image: '/work/lays.jpg', color: '#e9a821', url: 'https://www.behance.net/gallery/237113251/Lays-AI-Product-Shoot', size: 'standard' },
   { index: '04', title: 'boAt', line: 'Loud product. Louder visual.', image: '/work/boat.jpg', color: '#cb3460', url: 'https://www.behance.net/gallery/237112815/Boat-Ad-Banner', size: 'wide' },
-  { index: '05', title: 'Web, remixed', line: 'Interfaces that remember they are allowed to have a personality.', image: '/work/website.png', color: '#486ecf', url: 'https://www.behance.net/gallery/238365395/Website-Design', size: 'standard' },
+  { index: '05', title: 'Web, remixed', line: 'Interfaces that remember they are allowed to have a personality.', image: '/work/website.png?v=20260902', color: '#486ecf', url: 'https://www.behance.net/gallery/238365395/Website-Design', size: 'standard', eager: true },
   { index: '06', title: 'Product in motion', line: 'Because sometimes the still frame simply refuses to do the job.', image: '/work/motion.jpg', color: '#7566bc', url: 'https://www.behance.net/gallery/217189455/Product-Info-Motion-Graphics', size: 'standard' },
 ]
 
@@ -145,7 +145,7 @@ function CosmeticCard({ edit, activeAudio, activateAudio, deactivateAudio }) {
 function FilmCard({ film, duplicate }) {
   const frame = useRef()
   const command = (name) => frame.current?.contentWindow?.postMessage(JSON.stringify({ event: 'command', func: name, args: [] }), '*')
-  return <a href={`https://www.youtube.com/watch?v=${film.id}`} target="_blank" rel="noreferrer" className="film-card" data-cursor="YOUTUBE ↗" draggable="false" tabIndex={duplicate ? -1 : undefined} onDragStart={(event) => event.preventDefault()} onMouseEnter={() => command('pauseVideo')} onMouseLeave={() => command('playVideo')}><iframe ref={frame} src={`https://www.youtube.com/embed/${film.id}?autoplay=1&mute=1&loop=1&playlist=${film.id}&controls=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`} title={`${film.title} muted preview${duplicate ? ' duplicate' : ''}`} loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabIndex="-1" /><span className="film-play"><ArrowUpRight size={20} /></span><div><small>{film.eyebrow}</small><h3>{film.title}</h3></div></a>
+  return <a href={`https://www.youtube.com/watch?v=${film.id}`} rel="noreferrer" className="film-card" data-cursor="YOUTUBE ↗" draggable="false" tabIndex={duplicate ? -1 : undefined} onDragStart={(event) => event.preventDefault()} onMouseEnter={() => command('pauseVideo')} onMouseLeave={() => command('playVideo')}><iframe ref={frame} src={`https://www.youtube.com/embed/${film.id}?autoplay=1&mute=1&loop=1&playlist=${film.id}&controls=0&playsinline=1&rel=0&modestbranding=1&enablejsapi=1`} title={`${film.title} muted preview${duplicate ? ' duplicate' : ''}`} loading="lazy" allow="autoplay; encrypted-media; picture-in-picture" tabIndex="-1" /><span className="film-play"><ArrowUpRight size={20} /></span><div><small>{film.eyebrow}</small><h3>{film.title}</h3></div></a>
 }
 
 function FilmRail() {
@@ -188,14 +188,16 @@ function FilmRail() {
     state.startX = event.clientX
     state.startOffset = state.offset
     state.lastTime = performance.now()
-    event.currentTarget.setPointerCapture(event.pointerId)
-    event.currentTarget.classList.add('is-dragging')
   }
   const move = (event) => {
     const state = rail.current
     if (!state.dragging || state.pointerId !== event.pointerId) return
     const distance = event.clientX - state.startX
-    if (Math.abs(distance) > 5) state.moved = true
+    if (Math.abs(distance) > 5 && !state.moved) {
+      state.moved = true
+      event.currentTarget.setPointerCapture(event.pointerId)
+      event.currentTarget.classList.add('is-dragging')
+    }
     state.offset = state.startOffset + distance
     if (state.moved) event.preventDefault()
   }
@@ -204,7 +206,6 @@ function FilmRail() {
     if (!state.dragging || state.pointerId !== event.pointerId) return
     state.dragging = false
     event.currentTarget.classList.remove('is-dragging')
-    try { event.currentTarget.releasePointerCapture(event.pointerId) } catch { /* pointer already released */ }
   }
   const click = (event) => {
     if (rail.current.moved) { event.preventDefault(); event.stopPropagation() }
@@ -353,7 +354,7 @@ function ProjectCard({ project }) {
     gsap.to(image.current, { x: ((event.clientX - rect.left) / rect.width - 0.5) * 14, y: ((event.clientY - rect.top) / rect.height - 0.5) * 14, scale: 1.055, duration: 0.45 })
   }
   const leave = () => gsap.to(image.current, { x: 0, y: 0, scale: 1, duration: 0.7, ease: 'power3.out' })
-  return <a ref={card} href={project.url} target="_blank" rel="noreferrer" className={`project-card ${project.size} ${project.safe ? 'nandi-safe' : ''}`} style={{ '--card-color': project.color }} onMouseMove={move} onMouseLeave={leave}><div className="project-visual" data-cursor="OPEN"><img ref={image} src={project.image} alt={`${project.title} project cover`} loading="lazy" /><span className="project-index">{project.index}</span><span className="project-arrow"><ArrowUpRight size={20} /></span></div><div className="project-info"><div><h3>{project.title}</h3><p>{project.line}</p></div></div></a>
+  return <a ref={card} href={project.url} target="_blank" rel="noreferrer" className={`project-card ${project.size} ${project.safe ? 'nandi-safe' : ''}`} style={{ '--card-color': project.color }} onMouseMove={move} onMouseLeave={leave}><div className="project-visual" data-cursor="OPEN"><img ref={image} src={project.image} alt={`${project.title} project cover`} loading={project.eager ? 'eager' : 'lazy'} fetchPriority={project.eager ? 'high' : 'auto'} /><span className="project-index">{project.index}</span><span className="project-arrow"><ArrowUpRight size={20} /></span></div><div className="project-info"><div><h3>{project.title}</h3><p>{project.line}</p></div></div></a>
 }
 
 function App() {
