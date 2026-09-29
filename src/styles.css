@@ -3,7 +3,7 @@
 :root { --ink:#11110f; --cream:#fff8ee; --orange:#e85935; --orange-dark:#c94225; --sky:#79b9db; --blue:#315cba; --yellow:#ffd443; font-family:'Manrope',sans-serif; color:var(--ink); background:var(--cream); font-synthesis:none; text-rendering:optimizeLegibility; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; background:var(--cream); }
-body { margin:0; min-width:320px; overflow-x:hidden; background:var(--cream); }
+body { margin:0; min-width:0; overflow-x:hidden; background:var(--cream); }
 img { display:block; max-width:100%; }
 a { color:inherit; text-decoration:none; }
 button,a { -webkit-tap-highlight-color:transparent; }
@@ -25,7 +25,8 @@ button,a { -webkit-tap-highlight-color:transparent; }
 .cursor.active span { opacity:1; }
 .scroll-progress { position:fixed; z-index:800; top:0; left:0; width:100%; height:3px; background:var(--yellow); transform:scaleX(0); transform-origin:left; }
 
-.floating-nav { position:fixed; z-index:100; top:23px; left:50%; transform:translateX(-50%); height:57px; padding:6px 7px 6px 9px; display:flex; align-items:center; gap:20px; background:rgba(255,248,238,.26); border:1px solid rgba(255,255,255,.65); border-radius:100px; box-shadow:0 10px 35px rgba(38,67,83,.14); backdrop-filter:blur(14px); font-size:12px; white-space:nowrap; }
+.floating-nav { position:fixed; z-index:100; top:23px; left:50%; transform:translateX(-50%); height:57px; padding:6px 7px 6px 9px; display:flex; align-items:center; gap:16px; background:rgba(255,248,238,.26); border:1px solid rgba(255,255,255,.65); border-radius:100px; box-shadow:0 10px 35px rgba(38,67,83,.14); backdrop-filter:blur(14px); font-size:11px; white-space:nowrap; }
+.floating-nav>a:not(.mini-avatar):not(.nav-cta):not(.nav-action) { padding-inline:3px; }
 .floating-nav>a:not(.mini-avatar):not(.nav-cta):not(.nav-action) { transition:opacity .2s; }
 .floating-nav>a:not(.mini-avatar):not(.nav-cta):not(.nav-action):hover { opacity:.55; }
 .mini-avatar { flex:none; width:41px; height:41px; display:grid; place-items:center; border-radius:50%; color:#fff; background:var(--orange); font:600 12px 'DM Mono'; box-shadow:inset 0 0 0 2px rgba(255,255,255,.45); }

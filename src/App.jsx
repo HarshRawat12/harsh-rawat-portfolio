@@ -3,6 +3,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ArrowDown, ArrowUpRight, Download, Instagram, Mail, MapPin, MessageCircle, Pause, Play, Sparkles, Volume2, VolumeX } from 'lucide-react'
 import Matter from 'matter-js'
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import BrandProfiles from './BrandProfiles'
+import { CreativeToolkit, ExperienceSection, SideQuestTeaser } from './PortfolioExtras'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -29,13 +31,13 @@ const cosmeticEdits = [
 ]
 
 const socialWorlds = [
-  { name: 'The Wisdom Genie', handle: '@the.wisdom.genie', lane: 'Wisdom · Culture', color: '#f36f45', ink: '#fff7e8', x: 8, y: 12, size: 'large', url: 'https://www.instagram.com/the.wisdom.genie/' },
-  { name: 'Ariseol India', handle: '@ariseol.india', lane: 'Automotive · Social', color: '#ffc52f', ink: '#12110d', x: 37, y: 6, size: 'small', url: 'https://www.instagram.com/ariseol.india/' },
-  { name: 'Westin Buildchem', handle: '@westin.buildchem', lane: 'Buildchem · Brand', color: '#315cba', ink: '#fff7e8', x: 66, y: 11, size: 'medium', url: 'https://www.instagram.com/westin.buildchem/' },
+  { name: 'The Wisdom Genie', handle: '@the.wisdom.genie', lane: 'Wisdom · Culture', color: '#69439f', ink: '#fff7e8', x: 8, y: 12, size: 'large', url: 'https://www.instagram.com/the.wisdom.genie/' },
+  { name: 'Ariseol India', handle: '@ariseol.india', lane: 'Automotive · Social', color: '#e62d2d', ink: '#fff7e8', x: 37, y: 6, size: 'small', url: 'https://www.instagram.com/ariseol.india/' },
+  { name: 'Westin Buildchem', handle: '@westin.buildchem', lane: 'Buildchem · Brand', color: '#f4bf2f', ink: '#12110d', x: 66, y: 11, size: 'medium', url: 'https://www.instagram.com/westin.buildchem/' },
   { name: 'Spaces by IBAX', handle: '@spacesby_ibax', lane: 'Interiors · Spaces', color: '#dfb7aa', ink: '#12110d', x: 18, y: 53, size: 'small', url: 'https://www.instagram.com/spacesby_ibax/' },
-  { name: 'Travel Buddy India', handle: '@travelbuddyindia.in', lane: 'Travel · Community', color: '#89c8de', ink: '#12110d', x: 44, y: 57, size: 'large', url: 'https://www.instagram.com/travelbuddyindia.in/' },
+  { name: 'Travel Buddy India', handle: '@travelbuddyindia.in', lane: 'Travel · Community', color: '#72b9e8', ink: '#12110d', x: 44, y: 57, size: 'large', url: 'https://www.instagram.com/travelbuddyindia.in/' },
   { name: 'Miira Lights', handle: '@miiralights', lane: 'Lighting · Product', color: '#f4e7a1', ink: '#12110d', x: 76, y: 48, size: 'small', url: 'https://www.instagram.com/miiralights/' },
-  { name: 'UK Gifts Portal', handle: '@uk_gifts_portal', lane: 'Gifting · Commerce', color: '#9c73c8', ink: '#fff7e8', x: 4, y: 76, size: 'medium', url: 'https://www.instagram.com/uk_gifts_portal/' },
+  { name: 'UK Gifts Portal', handle: '@uk_gifts_portal', lane: 'Gifting · Commerce', color: '#dc5a9f', ink: '#fff7e8', x: 4, y: 76, size: 'medium', url: 'https://www.instagram.com/uk_gifts_portal/' },
   { name: 'Audio Sculptors', handle: '@audiosculptors', lane: 'Sound · Culture', color: '#25231e', ink: '#fff7e8', x: 69, y: 76, size: 'large', url: 'https://www.instagram.com/audiosculptors/' },
 ]
 
@@ -167,7 +169,7 @@ function FilmRail() {
     const render = () => { normalize(); if (track.current) track.current.style.transform = `translate3d(${state.offset}px,0,0)` }
     const tick = (now) => {
       const hovering = window.matchMedia('(hover:hover)').matches && track.current?.matches(':hover')
-      if (!reduceMotion && !state.dragging && !hovering) state.offset -= 0.34 * Math.min(2, (now - previous) / 16.67)
+      if (!reduceMotion && !state.dragging && !hovering) state.offset -= 0.85 * Math.min(2, (now - previous) / 16.67)
       previous = now
       render()
       frame = requestAnimationFrame(tick)
@@ -342,7 +344,7 @@ function SocialPlayground() {
     return moved
   }
 
-  return <section className="social-worlds" id="social"><div className="social-heading" data-reveal><p className="eyebrow">SOCIAL MEDIA, BUT NEVER ONE-SIZE-FITS-ALL</p><h2>Eight feeds.<br /><em>Eight different worlds.</em></h2><p>I’ve shaped content across automotive, interiors, travel, gifting, lighting, audio and culture. Left-drag or right-drag a world and throw it into another. Click one to visit its feed.</p></div><div className="social-arena" ref={arena} onPointerMove={spotlight} onContextMenu={(event) => event.preventDefault()}><div className="arena-core"><span>GRAB · THROW<br />WATCH THEM COLLIDE</span><i /></div>{socialWorlds.map((account, index) => <SocialCard account={account} index={index} setOrbRef={(orbIndex, node) => { orbRefs.current[orbIndex] = node }} grab={grab} move={move} release={release} didDrag={didDrag} key={account.handle} />)}</div></section>
+  return <section className="social-worlds" id="social"><div className="social-heading" data-reveal><p className="eyebrow">THE BIGGER SOCIAL PICTURE</p><h2>More accounts<br /><em>I handle.</em></h2><p>Explore every account in the mix, from automotive and travel to interiors, lighting and sound. Drag the worlds around, or click one to visit its Instagram page.</p></div><div className="social-arena" ref={arena} onPointerMove={spotlight} onContextMenu={(event) => event.preventDefault()}><div className="arena-core"><span>GRAB · THROW<br />WATCH THEM COLLIDE</span><i /></div>{socialWorlds.map((account, index) => <SocialCard account={account} index={index} setOrbRef={(orbIndex, node) => { orbRefs.current[orbIndex] = node }} grab={grab} move={move} release={release} didDrag={didDrag} key={account.handle} />)}</div></section>
 }
 
 function ProjectCard({ project }) {
@@ -354,7 +356,7 @@ function ProjectCard({ project }) {
     gsap.to(image.current, { x: ((event.clientX - rect.left) / rect.width - 0.5) * 14, y: ((event.clientY - rect.top) / rect.height - 0.5) * 14, scale: 1.055, duration: 0.45 })
   }
   const leave = () => gsap.to(image.current, { x: 0, y: 0, scale: 1, duration: 0.7, ease: 'power3.out' })
-  return <a ref={card} href={project.url} target="_blank" rel="noreferrer" className={`project-card ${project.size} ${project.safe ? 'nandi-safe' : ''}`} style={{ '--card-color': project.color }} onMouseMove={move} onMouseLeave={leave}><div className="project-visual" data-cursor="OPEN"><img ref={image} src={project.image} alt={`${project.title} project cover`} loading={project.eager ? 'eager' : 'lazy'} fetchPriority={project.eager ? 'high' : 'auto'} /><span className="project-index">{project.index}</span><span className="project-arrow"><ArrowUpRight size={20} /></span></div><div className="project-info"><div><h3>{project.title}</h3><p>{project.line}</p></div></div></a>
+  return <a ref={card} href={project.url} target="_blank" rel="noreferrer" className={`project-card ${project.size} ${project.safe ? 'nandi-safe' : ''}`} style={{ '--card-color': project.color }} onMouseMove={move} onMouseLeave={leave}><div className="project-visual" data-cursor="OPEN"><img ref={image} src={project.image} alt={`${project.title} project cover`} loading={project.eager ? 'eager' : 'lazy'} fetchpriority={project.eager ? 'high' : 'auto'} /><span className="project-index">{project.index}</span><span className="project-arrow"><ArrowUpRight size={20} /></span></div><div className="project-info"><div><h3>{project.title}</h3><p>{project.line}</p></div></div></a>
 }
 
 function App() {
@@ -387,7 +389,7 @@ function App() {
 
   return <div ref={root}>
     <Preloader /><Cursor /><div className="scroll-progress" />
-    <nav className="floating-nav" aria-label="Main navigation"><a href="#top" className="mini-avatar" aria-label="Harsh Rawat home">HR</a><a href="#work">Work</a><a href="#films">Motion</a><a href="#social">Social</a><a href="/Harsh-Rawat-CV.pdf" download className="nav-action" aria-label="Download Harsh Rawat résumé"><Download size={15} /><span>Résumé</span></a><a href="https://wa.me/919899780749?text=Hi%20Harsh%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20talk." target="_blank" rel="noreferrer" className="nav-action whatsapp" aria-label="Message Harsh on WhatsApp"><MessageCircle size={16} /><span>WhatsApp</span></a><a href="#contact" className="nav-cta"><Mail size={16} /> Work with me</a></nav>
+    <nav className="floating-nav" aria-label="Main navigation"><a href="#top" className="mini-avatar" aria-label="Harsh Rawat home">HR</a><a href="#work">Work</a><a href="#films">Motion</a><a href="#brand-profiles">Social</a><a href="#experience">Experience</a><a href="#creative-toolkit">Skills + AI</a><a href="#side-quest">Side Quest</a><a href="/Harsh-Rawat-CV.pdf" download className="nav-action" aria-label="Download Harsh Rawat résumé"><Download size={15} /><span>Résumé</span></a><a href="https://wa.me/919899780749?text=Hi%20Harsh%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20talk." target="_blank" rel="noreferrer" className="nav-action whatsapp" aria-label="Message Harsh on WhatsApp"><MessageCircle size={16} /><span>WhatsApp</span></a><a href="#contact" className="nav-cta"><Mail size={16} /> Work with me</a></nav>
     <main>
       <section className="hero" id="top"><div className="grain" /><div className="hero-topline"><span><MapPin size={18} /> NEW DELHI, INDIA</span><span>IST {time}</span></div><div className="sun"><i /></div><div className="tool-sticker sticker-pr">Ps</div><div className="tool-sticker sticker-ae">Ae</div><div className="cloud cloud-one" /><div className="cloud cloud-two" /><div className="hero-side">DESIGN&nbsp; / &nbsp;MOTION&nbsp; / &nbsp;STORY</div><div className="hero-content"><p className="hero-kicker"><i /> HELLO, I’M HARSH RAWAT. A—</p><h1 className="hero-title"><span>Designer who</span><span>makes <em>noise.</em></span></h1><TapePlayer activeAudio={activeAudio} activateAudio={activateAudio} deactivateAudio={deactivateAudio} /></div><div className="hero-scroll"><span>Scroll for the good stuff</span><ArrowDown size={18} /></div><svg className="paper-wave" viewBox="0 0 1440 180" preserveAspectRatio="none" aria-hidden="true"><path d="M0 76C163 5 256 178 443 93C617 14 695 197 884 101C1063 9 1200 145 1440 53V180H0Z" /></svg></section>
 
@@ -399,11 +401,18 @@ function App() {
 
       <section className="cosmetics"><div className="cosmetic-heading" data-reveal><p className="eyebrow">COSMETIC EDITING · SOUND OPTIONAL</p><h2>Beauty edits with<br /><em>good timing.</em></h2><p>Four compact experiments in product texture, rhythm and polish. They begin muted—use the sound button on any reel when you want the full cut.</p></div><div className="cosmetic-grid">{cosmeticEdits.map((edit) => <CosmeticCard edit={edit} activeAudio={activeAudio} activateAudio={activateAudio} deactivateAudio={deactivateAudio} key={edit.src} />)}</div></section>
 
+      <BrandProfiles accounts={socialWorlds} />
+
       <SocialPlayground />
 
-      <section className="story"><div className="story-head" data-reveal><p className="eyebrow">THE LORE, IF YOU’RE STILL READING</p><h2>Started with pixels.<br />Stayed for the <em>big ideas.</em></h2></div><div className="story-board"><article className="story-card card-cream" data-reveal><span>2022—23</span><h3>E-commerce brain</h3><p>At Jivo Wellness: paid creatives, A+ content, banners, GIFs and product storytelling built to move people toward “buy”.</p><b>01</b></article><article className="story-card card-process" data-reveal><span>THE WAY I WORK</span><div className="process-words"><i>IDEA</i><i>DESIGN</i><i>MOTION</i></div><p>One thought, pushed through every format it deserves.</p></article><article className="story-card card-blue" data-reveal><span>2023—NOW</span><h3>Strategy meets motion</h3><p>At Pure Creations: shaping content systems, brand stories, motion graphics and founder-led video from idea to final export.</p><b>02</b></article><article className="story-card card-quote" data-reveal><p>“Good design gets attention. Great design knows what to do with it.”</p><span>— MY WORKING THEORY</span></article><article className="story-card card-orange" data-reveal><span>2024</span><h3>Journalism + digital media</h3><p>A degree that sharpened the part of design I care about most: finding the story before decorating the frame.</p><b>03</b></article></div></section>
+      <section className="story"><div className="story-head" data-reveal><p className="eyebrow">THE LORE, IF YOU’RE STILL READING</p><h2>Started with pixels.<br />Stayed for the <em>big ideas.</em></h2></div><div className="story-board"><article className="story-card card-cream" data-reveal><span>2022—23</span><h3>E-commerce brain</h3><p>At Jivo Wellness: paid creatives, A+ content, banners, GIFs and product storytelling built to move people toward “buy”.</p><b>01</b></article><article className="story-card card-process" data-reveal><span>THE WAY I WORK</span><div className="process-words"><i>IDEA</i><i>DESIGN</i><i>MOTION</i></div><p>One thought, pushed through every format it deserves.</p></article><article className="story-card card-blue" data-reveal><span>2023—NOW</span><h3>Strategy meets motion</h3><p>At Pure Creations: shaping content systems, brand stories, motion graphics and founder-led video from idea to final export.</p><b>02</b></article><article className="story-card card-quote" data-reveal><p>“Good design gets attention. Great design knows what to do with it.”</p><span>— MY WORKING THEORY</span></article><article className="story-card card-orange" data-reveal><span>2024</span><h3>Journalism + digital media</h3><p>Studies in journalism and digital media keep sharpening the part of design I care about most: finding the story before decorating the frame.</p><b>03</b></article></div></section>
+
+      <ExperienceSection />
 
       <section className="toolbox"><div className="toolbox-copy" data-reveal><p className="eyebrow">SERVICES / SKILLS / USEFUL OBSESSIONS</p><h2>MY CREATIVE<br /><em>OPERATING SYSTEM.</em></h2></div><div className="tool-list">{['Art direction', 'Graphic design', 'Motion graphics', 'Video editing', 'Content strategy', 'Brand systems'].map((item, index) => <div data-reveal key={item}><span>0{index + 1}</span><strong>{item}</strong><i>↗</i></div>)}</div></section>
+
+      <CreativeToolkit />
+      <SideQuestTeaser />
 
       <section className="contact" id="contact"><div className="grain" /><div className="contact-sun"><i /></div><p className="eyebrow">OPEN TO FULL-TIME ROLES & BRAVE BRIEFS</p><h2>LET’S MAKE THE<br />INTERNET <em>LESS BORING.</em></h2><p className="contact-copy">Need a designer who can think, write, animate and still name the final file properly? That sounds oddly specific. We should talk.</p><div className="contact-actions"><a href="mailto:rawat.harsh200@gmail.com" className="contact-button" data-cursor="MAIL"><Mail /><span>rawat.harsh200@gmail.com</span><ArrowUpRight /></a><a href="https://wa.me/919899780749?text=Hi%20Harsh%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20talk." target="_blank" rel="noreferrer" className="contact-button contact-whatsapp" data-cursor="CHAT"><MessageCircle /><span>Chat on WhatsApp</span><ArrowUpRight /></a></div><div className="contact-bottom"><span>HARSH RAWAT © {new Date().getFullYear()}</span><div><a href="https://www.behance.net/harsh_rawat" target="_blank" rel="noreferrer">BEHANCE ↗</a><a href="#top">TOP ↑</a></div><span>NEW DELHI · INDIA</span></div></section>
     </main>
